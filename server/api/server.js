@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import quizRouter from "../router/quizRouter.js"; // Ensure the import name matches
-
+const API_URL =  process.env.VITE_API_FRONT_URL;
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "API_URL",
 };
 
 const PORT = process.env.PORT || 3000;
