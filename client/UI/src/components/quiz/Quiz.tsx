@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-
+const API_URL =  import.meta.env.VITE_API_BASE_URL;
 
 
 function Quiz() {
@@ -8,7 +8,7 @@ function Quiz() {
 
     const getQuiz = async () => {
         try {
-            const res = await axios.get(`https://pokes-three.vercel.app/quiz/image/1`);
+            const res = await axios.get(`${API_URL}/api/quiz/image/1`);
             setQuiz(res.data.url);
         } catch (error) {
             console.error("Error fetching quiz:", error);
