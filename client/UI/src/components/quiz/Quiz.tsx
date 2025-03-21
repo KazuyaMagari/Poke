@@ -1,17 +1,20 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+const API_URL =  import.meta.env.VITE_API_BASE_URL;
+
 
 function Quiz() {
     const [quiz, setQuiz] = useState(""); 
 
     const getQuiz = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/quiz/image/1');
+            const res = await axios.get(`${API_URL}/quiz/image/1`);
             setQuiz(res.data.url);
         } catch (error) {
             console.error("Error fetching quiz:", error);
             setQuiz("クイズの取得に失敗しました。");
         }
+
     };
 
     useEffect(() => {
