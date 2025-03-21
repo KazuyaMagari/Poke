@@ -3,7 +3,7 @@ import cors from "cors";
 import quizRouter from "../router/quizRouter.js"; // Ensure the import name matches
 const app = express();
 const corsOptions = {
-  origin: `"https://poke-v456.vercel.app"`, // Replace with your frontend API_URL",
+  origin: "https://poke-v456.vercel.app", // Replace with your frontend API_URL",
 };
 
 const PORT = process.env.PORT || 3000;
