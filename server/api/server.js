@@ -4,7 +4,9 @@ import quizRouter from "../router/quizRouter.js"; // Ensure the import name matc
 const FAPI_URL =  process.env.VITE_API_FRONT_URL;
 const app = express();
 const corsOptions = {
-  origin: FAPI_URL || "http://localhost:5173", // Replace with your frontend API_URL",
+  origin: FAPI_URL || "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"] // Replace with your frontend API_URL",
 };
 
 const PORT = process.env.PORT || 3000;
