@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-const API_URL =  import.meta.env.VITE_API_BASE_URL;
+ const API_URL =  import.meta.env.VITE_API_BASE_URL;
 
 
 function Quiz() {
@@ -19,7 +19,6 @@ function Quiz() {
 
     useEffect(() => {
         getQuiz();
-        console.log("API URL:", API_URL)    
     }, []);
 
     return (
