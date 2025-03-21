@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Footer from './Footer';
+import { NavLink } from "react-router";
 function Home() {
   console.log("API URL:", import.meta.env.VITE_API_BASE_URL);
   return (
@@ -34,8 +35,10 @@ function Home() {
 
           <div className="row mt-3">
             <div className="col-sm-12 d-flex justify-content-center align-items-center flex-column p-0 m-0">
-              <Button variant="danger" href="/quiz" style={{ fontSize: '1.5rem'}}>Go Quiz!</Button>
-            </div>
+              <NavLink to="/quiz">
+                <Button variant="danger" style={{ fontSize: '1.5rem'}}>Go Quiz!</Button>
+              </NavLink>     
+              </div>
           </div>
         </div>
         
