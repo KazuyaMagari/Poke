@@ -1,35 +1,15 @@
 {
-    "version": 2,
     "builds": [
-      {
-        "src": "api/server.js",
-        "use": "@vercel/node"
-      }
+        {
+            "src": "api/server.js",
+            "use": "@vercel/node"
+        }
     ],
     "routes": [
-      {
-        "src": "/quiz/image/(.*)",
-        "dest": "api/server.js"
-      }
-    ],
-    "headers": [
-      {
-        "source": "/quiz/image/(.*)",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "https://poke-v456.vercel.app"
-          },
-          {
-            "key": "Access-Control-Allow-Methods",
-            "value": "GET, OPTIONS"
-          },
-          {
-            "key": "Access-Control-Allow-Headers",
-            "value": "Content-Type"
-          }
-        ]
-      }
+        {
+            "src": "/(.*)",
+            "dest": "api/server.js"
+        }
     ]
-  }
+}
   
