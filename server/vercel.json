@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/index.js": {
-        "runtime": "node22.x"
+        "runtime": "node20.x"
       }
     },
     "routes": [
