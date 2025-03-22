@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import NavComp from "./components/NavComp";
 import Quiz from "./components/quiz/Quiz";
@@ -7,13 +7,14 @@ function App() {
 
   return (
     <>
+         <Router> {/* Router でラップ */}
       <NavComp />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/quiz" element={<Quiz />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/quiz" element={<Quiz />} />
+        {/* <Route path="/list" element={<List />} /> */}
+      </Routes>
+    </Router>
 
     </>
   )
