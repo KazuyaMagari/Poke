@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import quizRouter from "../router/quizRouter.js"; 
-
+import listRouter from "../router/listRouter.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -33,9 +33,9 @@ app.use(express.json());
 
 // ルーティング
 app.use("/quiz", quizRouter);
-
+app.use("/list", listRouter);
 app.get("/", (req, res) => {
-  res.json({ message: "Hello World" });
+  res.json({ message: "Hello World, this is 2000" });
 });
 
 // サーバー起動
