@@ -6,5 +6,10 @@
   ],
   "compilerOptions": {
     "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "noImplicitAny": false
+
   }
 }

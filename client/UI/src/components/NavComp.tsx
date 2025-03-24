@@ -2,7 +2,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from "react-router";
+import { useAuthState } from "react-firebase-hooks/auth";
+// @ts-ignore
+import { auth } from "../.././../../database/schemas/firebase";
+// @ts-ignore
+import {SignIn, UserProfile} from "./auth/SignIn"
 function NavComp() {
+  const [user] = useAuthState(auth);
   return (
     <header style={{marginBottom: '3rem'}}>
       <Navbar data-bs-theme="light" className="d-flex justify-content-center align-items-center">
@@ -11,7 +17,9 @@ function NavComp() {
           <Nav className='me-4' style={{ fontSize: '1.5rem' }}>
             <Nav.Link as={NavLink} to="/quiz" className="mx-2">Quiz</Nav.Link>
             <Nav.Link as={NavLink} to="#pricing" className="mx-2">List</Nav.Link>
+            {user ? <UserProfile /> : <SignIn />}
           </Nav>
+         
         </Container>
       </Navbar>
     </header>

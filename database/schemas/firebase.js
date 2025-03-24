@@ -1,7 +1,7 @@
 import {initializeApp}  from "firebase/app";
 import { getFirestore, getDoc, setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { PokeImagesURL } from "./PokemonList.js";
-
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCO8bW9kv_oD9Lj2q97Tnw9ZLJzc-s80KU",
   authDomain: "pokemonlist-ce83b.firebaseapp.com",
@@ -13,6 +13,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 async function addPokemon(index) {
   const url = `${PokeImagesURL}${index}.png`;
@@ -33,4 +35,4 @@ async function addPokemon(index) {
 //   addPokemon(i);
 // }
 
-export  { db, firebaseConfig, app, doc, getDoc };
+export  { db, firebaseConfig, app, doc, getDoc, auth, provider, signInWithPopup };
