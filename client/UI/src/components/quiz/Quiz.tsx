@@ -4,9 +4,15 @@ import PokeData from '../../../../../database/PokeData.ts';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+interface SolvedItem {
+  url: string;
+  name: string;
+  isCorrect: boolean;
+}
 function Quiz() {
   const [quiz, setQuiz] = useState<string | null>(null); 
   const [userAnswer, setUserAnswer] = useState(""); 
+  const [solved, setSolved] = useState<SolvedItem[]>([]);
   const [questionCount, setQuestionCount] = useState(0); 
   const [correctCount, setCorrectCount] = useState(0); 
   const [quizComplete, setQuizComplete] = useState(false); 
@@ -20,7 +26,7 @@ function Quiz() {
       setQuiz(res.data.url);
       const correctName: string | undefined = PokeData.pokemon.find(pokemon => pokemon.id === randNum)?.name;
       setCorrectAnswer(correctName ?? "");
-      
+      setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect:  correctAnswer === correctName }]);
       console.log("Correct Answer:", correctName);
       console.log("Pokemon ID:", randNum);
 
@@ -60,6 +66,28 @@ function Quiz() {
         <div className="text-center">
           <h2>クイズ終了！</h2>
           <p>あなたの正解数は {correctCount} / 10 問です！</p>
+          <h3>解いたポケモン</h3>
+          {solved.map((item, index) => (
+            <div key={index} className='container'>
+              <div className="row mb-3 d-flex align-items-center justify-content-center" >
+                <div className="col-md-2 d-flex justify-content-center me-0"><img src={item.url} alt={item.name} style={{ width: '200px', height: '200px' }} /></div>
+                <div className="col-md-2 text-center"> 
+                  <p>{item.name}</p>
+                  <br></br>
+                  {item.isCorrect ? (
+                  <p className="text-success">正解！</p>
+                  ) : (
+                    <>
+                    <p className="text-danger">不正解！</p>
+                    <button className='btn btn-primary'>リストに追加する</button>
+                    </>
+                  )}
+
+                </div>
+              </div>
+            </div>
+          ))}
+      
           <button className="btn btn-primary" onClick={() => window.location.reload()}>
             もう一度挑戦する
           </button>
