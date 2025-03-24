@@ -58,7 +58,7 @@ function Quiz() {
     event.preventDefault();
     const userId = auth.currentUser?.uid;
     if (!userId) {
-    alert("Please sign in first! client");
+    alert("Please sign in first! client test");
     return;
   }
     try {
@@ -91,7 +91,7 @@ function Quiz() {
 
       {quizComplete ? (
         <div className="text-center">
-          <h2>クイズ終了！</h2>
+          <h2>クイズ終わり</h2>
           <p>あなたの正解数は {correctCount} / 10 問です！</p>
           <h3>解いたポケモン</h3>
           {solved.map((item, index) => (
