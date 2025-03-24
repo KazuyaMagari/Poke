@@ -54,16 +54,16 @@ function Quiz() {
     }
   };
 
-  const listHandler = async (event: React.FormEvent<HTMLFormElement>, num: number) => {
+  const listHandler = async (event: React.FormEvent<HTMLFormElement>, index: number) => {
     event.preventDefault();
     const userId = auth.currentUser?.uid;
     if (!userId) {
-    alert("Please sign in first! client test");
+    alert("Please sign in first! client");
     return;
   }
     try {
-      const res = await axios.post(`${API_URL}/list`);
-      console.log(num)
+      const res = await axios.post(`${API_URL}/list/${userId}/${index}`);
+      console.log(index)
       if (res.status === 200) {
         alert("ポケモンがリストに追加されました！");
       }
@@ -91,7 +91,7 @@ function Quiz() {
 
       {quizComplete ? (
         <div className="text-center">
-          <h2>クイズ終わり</h2>
+          <h2>クイズ終了！</h2>
           <p>あなたの正解数は {correctCount} / 10 問です！</p>
           <h3>解いたポケモン</h3>
           {solved.map((item, index) => (
