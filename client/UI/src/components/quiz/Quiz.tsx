@@ -1,14 +1,18 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import PokeData from '../../../../../database/PokeData.ts';
-
+//  @ts-ignore
+import PokeData from '../../../../../database/PokeData.js';
+//  @ts-ignore
+import {auth} from '../../../../../database/schemas/firebase';
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface SolvedItem {
   url: string;
   name: string;
   isCorrect: boolean;
+  num: number
 }
+
 function Quiz() {
   const [quiz, setQuiz] = useState<string | null>(null); 
   const [userAnswer, setUserAnswer] = useState(""); 
@@ -24,12 +28,12 @@ function Quiz() {
       const res = await axios.get(`${API_URL}/quiz/image/${randNum}`);
   
       setQuiz(res.data.url);
-      const correctName: string | undefined = PokeData.pokemon.find(pokemon => pokemon.id === randNum)?.name;
+      const correctName: string | undefined = PokeData.pokemon.find((pokemon: { id: number; name: string }) => pokemon.id === randNum)?.name;
       setCorrectAnswer(correctName ?? "");
-      setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect:  correctAnswer === correctName }]);
+      setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect:  correctAnswer === correctName, num: randNum }]);
       console.log("Correct Answer:", correctName);
       console.log("Pokemon ID:", randNum);
-
+      console.log(solved)
       setUserAnswer(""); // Reset user answer
       setQuestionCount(prev => prev + 1); 
     } catch (error) {
@@ -49,6 +53,29 @@ function Quiz() {
       setQuizComplete(true);
     }
   };
+
+  const listHandler = async (event: React.FormEvent<HTMLFormElement>, num: number) => {
+    event.preventDefault();
+    const userId = auth.currentUser?.uid;
+    if (!userId) {
+    alert("Please sign in first! client");
+    return;
+  }
+    try {
+      const res = await axios.post(`${API_URL}/list/${userId}/${num}`);
+      
+      if (res.status === 200) {
+        alert("ポケモンがリストに追加されました！");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios Error:", error.response?.data || error.message);
+      } else {
+        console.error("Unexpected Error:", error);
+      }
+    }
+  };
+  
 
   useEffect(() => {
     getQuiz(); // Load first quiz on component mount
@@ -79,7 +106,10 @@ function Quiz() {
                   ) : (
                     <>
                     <p className="text-danger">不正解！</p>
-                    <button className='btn btn-primary'>リストに追加する</button>
+                    <form onSubmit={(event) => listHandler(event, item.num)} method="POST">
+                    <button type="submit" className="btn btn-primary">リストに追加</button>
+                    </form>
+                    
                     </>
                   )}
 

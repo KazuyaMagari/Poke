@@ -29,6 +29,7 @@ function UserProfile() {
 }
 function UseInfo() {
     return (
+        
         <div className="user-info d-flex align-items-center me-2">
             <img style={{width: "50px", height: "50px"}} className="rounded-circle" src={auth.currentUser?.photoURL} alt="" />
         </div>
