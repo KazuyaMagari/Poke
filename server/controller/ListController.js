@@ -11,7 +11,6 @@ const ListController = {
             console.error("Error saving pokemon:", error);
             res.status(500).json({ message: "Error saving pokemon" });
         }
-        res.json({ message: "Hello World from index" });
     }
 };
 
