@@ -62,7 +62,7 @@ function Quiz() {
     return;
   }
     try {
-      const res = await axios.post(`${API_URL}/list/${userId}/${num}`);
+      const res = await axios.post(`${API_URL}/list`);
       
       if (res.status === 200) {
         alert("ポケモンがリストに追加されました！");
