@@ -5,6 +5,6 @@ listRouter.get("/", (req, res) => {
     res.json({ message: "Hello World from list" });
 });
 
-listRouter.post("/", ListController.addList);
+listRouter.post("/list/:userId/:index", ListController.addList);
 
 export default listRouter
