@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { 
-  getFirestore, getDoc, setDoc, addDoc, doc, serverTimestamp, updateDoc, arrayUnion, 
-  collection
+  getFirestore, deleteDoc, getDoc, setDoc, getDocs, collection, addDoc, doc, serverTimestamp, updateDoc, arrayUnion, 
 } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged} from "firebase/auth";
 import PokeData from "../PokeData.js";
@@ -66,4 +65,4 @@ export const savePokemonToUserList = async (pokemonIndex, userId) => {
   }
 };
 
-export { db, firebaseConfig, app, doc, getDoc, auth, provider, signInWithPopup, serverTimestamp};
+export { deleteDoc,db, firebaseConfig, app, doc, getDoc, getDocs, auth, collection, provider, signInWithPopup, serverTimestamp};
