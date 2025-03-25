@@ -39,4 +39,4 @@
     </ul>
 </div>
 
-<h3><a target="blank" href="https://poke-v456.vercel.app">deploy URL</a></h3>
+<h3><a target="_blank" href="https://poke-v456.vercel.app">deploy URL</a></h3>
