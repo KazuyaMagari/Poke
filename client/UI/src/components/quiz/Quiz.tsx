@@ -14,7 +14,7 @@ interface SolvedItem {
 }
 
 function Quiz() {
-  const [quiz, setQuiz] = useState<string | null>(null); 
+  const [quiz, setQuiz] = useState<string | null>(); 
   const [userAnswer, setUserAnswer] = useState(""); 
   const [solved, setSolved] = useState<SolvedItem[]>([]);
   const [questionCount, setQuestionCount] = useState(0); 
@@ -30,7 +30,9 @@ function Quiz() {
       setQuiz(res.data.url);
       const correctName: string | undefined = PokeData.pokemon.find((pokemon: { id: number; name: string }) => pokemon.id === randNum)?.name;
       setCorrectAnswer(correctName ?? "");
-      setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect:  correctAnswer === correctName, num: randNum }]);
+      setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect: false, num: randNum }]);
+      console.log(solved)
+
       setUserAnswer(""); // Reset user answer
       setQuestionCount(prev => prev + 1); 
     } catch (error) {
@@ -40,8 +42,16 @@ function Quiz() {
   };
 
   const handleSubmit = () => {
-    if (userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+    if (userAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
       setCorrectCount(prev => prev + 1);
+      setSolved(prev => {
+        const updatedSolved = [...prev];
+        updatedSolved[updatedSolved.length - 1] = {
+          ...updatedSolved[updatedSolved.length - 1],
+          isCorrect: true, // ユーザーが正解した場合に `isCorrect` を true にする
+        };
+        return updatedSolved;
+      });
     }
 
     if (questionCount < 10) { // 10 questions total
