@@ -2,7 +2,6 @@ import Button from 'react-bootstrap/Button';
 import Footer from './Footer';
 import { NavLink } from "react-router";
 function Home() {
-  console.log("API URL:", import.meta.env.VITE_API_BASE_URL);
   return (
     <div className="d-flex flex-column min-vh-100">
       {/* メインコンテンツ */}
