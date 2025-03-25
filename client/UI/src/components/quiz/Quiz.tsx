@@ -31,9 +31,6 @@ function Quiz() {
       const correctName: string | undefined = PokeData.pokemon.find((pokemon: { id: number; name: string }) => pokemon.id === randNum)?.name;
       setCorrectAnswer(correctName ?? "");
       setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect:  correctAnswer === correctName, num: randNum }]);
-      console.log("Correct Answer:", correctName);
-      console.log("Pokemon ID:", randNum);
-      console.log(solved)
       setUserAnswer(""); // Reset user answer
       setQuestionCount(prev => prev + 1); 
     } catch (error) {
@@ -63,7 +60,6 @@ function Quiz() {
   }
     try {
       const res = await axios.post(`${API_URL}/list/${userId}/${index}`);
-      console.log(index)
       if (res.status === 200) {
         alert("ポケモンがリストに追加されました！");
       }
