@@ -7,9 +7,9 @@
     This is the simple Pokemon quiz for children and adult who have played Pokemon, but don't remember pokemons a lot.
     In the Quiz section, you can take 10 questions for pokemon name. After doing all 10 question, you can check if it is correct or not. In addition, you can make a list to remember the pokemon. For now, you can list only the image and name. I will add some info like type. In terms of code, I used MVC and three tier architecture.
     </p>
-    <img src="./Home.png" alt="home" style="height:400px; width:400px;">
-    <img src="./Result.png" alt="result" style="height:400px; width:400px;">
-    <img src="./List.png" style="height:400px; width:400px;" alt="list">
+    <img src="./Home.png" alt="home" style="height:400px; width:400px; object-fit: cover;">
+    <img src="./Result.png" alt="result" style="height:400px; width:400px; object-fit: cover;">
+    <img src="./List.png" style="height:400px; width:400px; object-fit: cover;" alt="list">
 
 </div>
 <div>
