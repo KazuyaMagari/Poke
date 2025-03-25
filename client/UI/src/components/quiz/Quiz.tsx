@@ -31,7 +31,6 @@ function Quiz() {
       const correctName: string | undefined = PokeData.pokemon.find((pokemon: { id: number; name: string }) => pokemon.id === randNum)?.name;
       setCorrectAnswer(correctName ?? "");
       setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect: false, num: randNum }]);
-      console.log(solved)
 
       setUserAnswer(""); // Reset user answer
       setQuestionCount(prev => prev + 1); 
