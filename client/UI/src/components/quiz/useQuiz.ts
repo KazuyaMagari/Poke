@@ -1,4 +1,5 @@
 import axios from 'axios';
+import joinUrl from '../../lib/url';
 import { useEffect, useState, useCallback } from 'react';
 import PokeData from '../../lib/pokeData';
 
@@ -23,7 +24,7 @@ export default function useQuiz(total = 10) {
   const getQuiz = useCallback(async () => {
     try {
       const randNum = Math.floor(Math.random() * 151) + 1;
-      const res = await axios.get(`${API_URL}/quiz/image/${randNum}`);
+  const res = await axios.get(joinUrl(API_URL, `/quiz/image/${randNum}`));
       setQuizUrl(res.data.url);
 
       const correctName: string | undefined = PokeData.pokemon.find((p: any) => p.id === randNum)?.name;
