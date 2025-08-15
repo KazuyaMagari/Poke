@@ -26,9 +26,14 @@ function Quiz() {
     }
     try {
       const res = await axios.post(buildApiUrl('list', `${userId}/${index}`));
-      if (res.status === 200) alert('ポケモンがリストに追加されました！');
+      if (res.status === 200) {
+        alert('ポケモンがリストに追加されました！');
+      } else {
+        console.error('List add non-200:', res.status, res.statusText, res.data);
+        alert('リスト追加に失敗しました。コンソールを確認してください。');
+      }
     } catch (e) {
-      console.error(e);
+      console.error('Network or server error when adding to list:', e);
     }
   }, []);
 

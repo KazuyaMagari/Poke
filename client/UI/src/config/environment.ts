@@ -22,7 +22,10 @@ export const getApiBaseUrl = () => {
   
   // Check if environment variable is set
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    // trim spaces that may be present in .env files
+    const raw = String(import.meta.env.VITE_API_BASE_URL).trim();
+    // ensure trailing slash for downstream builders
+    return raw.endsWith('/') ? raw : `${raw}/`;
   }
   
   // Fallback to development

@@ -29,6 +29,7 @@ export default function useQuiz(total = 10) {
       
       const randNum = Math.floor(Math.random() * 151) + 1;
       const res = await axios.get(buildApiUrl('quiz/image', randNum.toString()));
+      console.log('Quiz image URL:', res);
       setQuizUrl(res.data.url);
 
       const correctName: string | undefined = PokeData.pokemon.find((p: any) => p.id === randNum)?.name;
