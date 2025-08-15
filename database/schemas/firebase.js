@@ -33,13 +33,13 @@ export const savePokemonToUserList = async (pokemonIndex, userId) => {
   try {
   // Build canonical image URL from PokeImagesURL using the pokemon id + 1 (requested mapping)
   const idNumber = Number(pokemonIndex);
-  const targetId = idNumber + 1;
-  const url = `${PokeImagesURL}${targetId}.png`;
+  // Use the canonical id for both image and name (no +1 offset)
+  const url = `${PokeImagesURL}${idNumber}.png`;
 
-  // PokeData からポケモンの名前を取得（画像を +1 したターゲットに合わせる）
-  console.log("userIndex", pokemonIndex, "targetId", targetId);
-  const pokeEntry = PokeData.pokemon.find((p) => Number(p.id) === targetId);
-  const pokemon = pokeEntry?.name ?? PokeData.pokemon[targetId - 1]?.name;
+  // PokeData からポケモンの名前を取得（id フィールドで検索）
+  console.log("userIndex", pokemonIndex, "idNumber", idNumber);
+  const pokeEntry = PokeData.pokemon.find((p) => Number(p.id) === idNumber);
+  const pokemon = pokeEntry?.name ?? PokeData.pokemon[idNumber - 1]?.name;
   console.log("pokemon name", pokemon);
     if (!pokemon) {
       console.error("Pokemon data not found in local PokeData.", { idNumber });
