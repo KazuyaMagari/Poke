@@ -6,6 +6,10 @@
   ],
   "compilerOptions": {
     "types": ["node"],
+    "baseUrl": "./src",
+    "paths": {
+      "database/*": ["../../../../database/*"]
+    },
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "jsx": "react-jsx",

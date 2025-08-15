@@ -1,14 +1,11 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from "react-router";
-import { useAuthState } from "react-firebase-hooks/auth";
-// @ts-ignore
-import { auth } from "../.././../../database/schemas/firebase";
-// @ts-ignore
-import {SignIn, UserProfile} from "./auth/SignIn"
+import { NavLink } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { SignIn, UserProfile } from "./auth/SignIn";
 function NavComp() {
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
   return (
     <header style={{marginBottom: '3rem'}}>
       <Navbar data-bs-theme="light" className="d-flex justify-content-center align-items-center">

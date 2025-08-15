@@ -1,7 +1,4 @@
-// @ts-ignore
-import { sign } from "crypto";
-// @ts-ignore
-import {auth, provider, signInWithPopup} from "../../../../../database/schemas/firebase";
+import { auth, provider, signInWithPopup } from "../../lib/firebase";
 
 function SignIn() {
   return (

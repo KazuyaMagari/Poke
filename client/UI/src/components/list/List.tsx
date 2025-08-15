@@ -1,7 +1,4 @@
-// @ts-ignore
-import { auth } from "../../../../../database/schemas/firebase";
-// @ts-ignore
-import { doc, getDocs, db, collection, deleteDoc } from "../../../../../database/schemas/firebase"; // Ensure correct import for db
+import { auth, db, doc, getDocs, collection, deleteDoc } from "../../lib/firebase";
 import { useEffect, useState } from "react";
 
 import Button from 'react-bootstrap/Button';

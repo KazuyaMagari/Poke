@@ -1,89 +1,34 @@
+import { useCallback } from 'react';
+import useQuiz from './useQuiz';
+import ResultItem from './ResultItem';
+import { auth } from '../../lib/firebase';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-//  @ts-ignore
-import PokeData from '../../../../../database/PokeData.js';
-//  @ts-ignore
-import {auth} from '../../../../../database/schemas/firebase';
-const API_URL = import.meta.env.VITE_API_BASE_URL;
-
-interface SolvedItem {
-  url: string;
-  name: string;
-  isCorrect: boolean;
-  num: number
-}
 
 function Quiz() {
-  const [quiz, setQuiz] = useState<string | null>(); 
-  const [userAnswer, setUserAnswer] = useState(""); 
-  const [solved, setSolved] = useState<SolvedItem[]>([]);
-  const [questionCount, setQuestionCount] = useState(0); 
-  const [correctCount, setCorrectCount] = useState(0); 
-  const [quizComplete, setQuizComplete] = useState(false); 
-  const [correctAnswer, setCorrectAnswer] = useState("");
+  const {
+    quizUrl,
+    userAnswer,
+    setUserAnswer,
+    solved,
+    questionCount,
+    correctCount,
+    quizComplete,
+    submitAnswer,
+    restart,
+  } = useQuiz(10);
 
-  const getQuiz = async () => {
-    try {
-      const randNum = Math.floor(Math.random() * 151) + 1;
-      const res = await axios.get(`${API_URL}/quiz/image/${randNum}`);
-  
-      setQuiz(res.data.url);
-      const correctName: string | undefined = PokeData.pokemon.find((pokemon: { id: number; name: string }) => pokemon.id === randNum)?.name;
-      setCorrectAnswer(correctName ?? "");
-      setSolved(prev => [...prev, { url: res.data.url, name: correctName ?? "", isCorrect: false, num: randNum }]);
-
-      setUserAnswer(""); // Reset user answer
-      setQuestionCount(prev => prev + 1); 
-    } catch (error) {
-      console.error("Error fetching quiz:", error);
-      setQuiz("クイズの取得に失敗しました。");
-    }
-  };
-
-  const handleSubmit = () => {
-    if (userAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
-      setCorrectCount(prev => prev + 1);
-      setSolved(prev => {
-        const updatedSolved = [...prev];
-        updatedSolved[updatedSolved.length - 1] = {
-          ...updatedSolved[updatedSolved.length - 1],
-          isCorrect: true, // ユーザーが正解した場合に `isCorrect` を true にする
-        };
-        return updatedSolved;
-      });
-    }
-
-    if (questionCount < 10) { // 10 questions total
-      getQuiz(); 
-    } else {
-      setQuizComplete(true);
-    }
-  };
-
-  const listHandler = async (event: React.FormEvent<HTMLFormElement>, index: number) => {
-    event.preventDefault();
+  const listHandler = useCallback(async (index: number) => {
     const userId = auth.currentUser?.uid;
     if (!userId) {
-    alert("Please sign in first! client");
-    return;
-  }
-    try {
-      const res = await axios.post(`${API_URL}/list/${userId}/${index}`);
-      if (res.status === 200) {
-        alert("ポケモンがリストに追加されました！");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios Error:", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected Error:", error);
-      }
+      alert('Please sign in first!');
+      return;
     }
-  };
-  
-
-  useEffect(() => {
-    getQuiz(); // Load first quiz on component mount
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/list/${userId}/${index}`);
+      if (res.status === 200) alert('ポケモンがリストに追加されました！');
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
 
   return (
@@ -99,46 +44,26 @@ function Quiz() {
           <h2>クイズ終了！</h2>
           <p>あなたの正解数は {correctCount} / 10 問です！</p>
           <h3>解いたポケモン</h3>
-          {solved.map((item, index) => (
-            <div key={index} className='container'>
-              <div className="row mb-3 d-flex align-items-center justify-content-center" >
-                <div className="col-md-2 d-flex justify-content-center me-0"><img src={item.url} alt={item.name} style={{ width: '200px', height: '200px' }} /></div>
-                <div className="col-md-2 text-center"> 
-                  <p>{item.name}</p>
-                  <br></br>
-                  {item.isCorrect ? (
-                  <p className="text-success">正解！</p>
-                  ) : (
-                    <>
-                    <p className="text-danger">不正解！</p>
-                    <form onSubmit={(event) => listHandler(event, item.num)} method="POST">
-                    <button type="submit" className="btn btn-primary">リストに追加</button>
-                    </form>
-                    
-                    </>
-                  )}
-
-                </div>
-              </div>
-            </div>
+          {solved.map((item) => (
+            <ResultItem key={item.id} item={item} onAddToList={listHandler} />
           ))}
-      
-          <button className="btn btn-primary" onClick={() => window.location.reload()}>
+
+          <button className="btn btn-primary" onClick={restart}>
             もう一度挑戦する
           </button>
         </div>
       ) : (
         <div className="col-auto d-flex flex-column align-items-center justify-content-center">
           <div className="d-flex flex-column align-items-center">
-            {quiz && (
+            {quizUrl && (
               <img 
-                src={quiz}
+                src={quizUrl}
                 alt="Pokemon" 
                 className="mb-3"
                 style={{ width: '300px', height: '300px' }}
               />
             )}
-            
+
             <input 
               type="text" 
               className="form-control mb-2"
@@ -147,11 +72,11 @@ function Quiz() {
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
             />
-            
-            <button className="btn btn-primary" onClick={handleSubmit} style={{ width: '100px', height: '50px' }}>
+
+            <button className="btn btn-primary" onClick={submitAnswer} style={{ width: '100px', height: '50px' }}>
               次へ
             </button>
-            
+
             <p className="mt-3">問題 {questionCount} / 10</p>
           </div>
         </div>
