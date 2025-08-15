@@ -3,7 +3,7 @@ import useQuiz from './useQuiz';
 import ResultItem from './ResultItem';
 import { auth } from '../../lib/firebase';
 import axios from 'axios';
-import joinUrl from '../../lib/url';
+import { buildApiUrl } from '../../config/api';
 
 function Quiz() {
   const {
@@ -25,7 +25,7 @@ function Quiz() {
       return;
     }
     try {
-  const res = await axios.post(joinUrl(import.meta.env.VITE_API_BASE_URL, `/list/${userId}/${index}`));
+      const res = await axios.post(buildApiUrl('list', `${userId}/${index}`));
       if (res.status === 200) alert('ポケモンがリストに追加されました！');
     } catch (e) {
       console.error(e);

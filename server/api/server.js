@@ -9,7 +9,9 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
   process.env.VITE_API_FRONT_URL,  // 環境変数で設定されたオリジン
   "http://localhost:5173",         // ローカル開発用
-  "https://poke-v456.vercel.app"   // 本番環境のフロントエンドURL（必要に応じて追加）
+  "https://poke-v456.vercel.app",  // 本番環境のフロントエンドURL
+  "https://poke-v456.vercel.app/", // 本番環境のフロントエンドURL（末尾スラッシュ付き）
+  "https://poke-v456.vercel.app/*" // 本番環境のフロントエンドURL（ワイルドカード）
 ];
 
 // CORS 設定
@@ -29,17 +31,31 @@ const corsOptions = {
       // fallthrough to deny
     }
 
+    // Log CORS rejection for debugging
+    console.log(`CORS blocked origin: ${origin}`);
+    console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
+    
     callback(new Error('Not allowed by CORS'));
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200,
+  credentials: true, // Allow credentials if needed
 };
 
 // Middleware 設定
 app.use(cors(corsOptions));
 // explicit preflight handler
 app.options('*', cors(corsOptions));
+
+// Additional CORS headers for problematic requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

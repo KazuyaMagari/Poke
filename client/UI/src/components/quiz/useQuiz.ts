@@ -2,8 +2,7 @@ import axios from 'axios';
 
 import { useEffect, useState, useCallback } from 'react';
 import PokeData from '../../lib/pokeData';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+import { buildApiUrl, validateApiConfig } from '../../config/api';
 
 export interface SolvedItem {
   url: string;
@@ -23,8 +22,13 @@ export default function useQuiz(total = 10) {
 
   const getQuiz = useCallback(async () => {
     try {
+      // Validate API configuration
+      if (!validateApiConfig()) {
+        throw new Error('API configuration is invalid');
+      }
+      
       const randNum = Math.floor(Math.random() * 151) + 1;
-  const res = await axios.get(`${API_URL}quiz/image/${randNum}`)
+      const res = await axios.get(buildApiUrl('quiz/image', randNum.toString()));
       setQuizUrl(res.data.url);
 
       const correctName: string | undefined = PokeData.pokemon.find((p: any) => p.id === randNum)?.name;
