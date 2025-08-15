@@ -15,18 +15,31 @@ const allowedOrigins = [
 // CORS 設定
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+    // allow requests with no origin (like server-to-server or curl)
+    if (!origin) return callback(null, true);
+
+    // allow explicit allowed origins
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+
+    // allow vercel subdomains (helps with preview URLs and redirects)
+    try {
+      const host = new URL(origin).hostname;
+      if (host.endsWith('.vercel.app')) return callback(null, true);
+    } catch (e) {
+      // fallthrough to deny
     }
+
+    callback(new Error('Not allowed by CORS'));
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
 };
 
 // Middleware 設定
 app.use(cors(corsOptions));
+// explicit preflight handler
+app.options('*', cors(corsOptions));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
