@@ -49,7 +49,7 @@ export const savePokemonToUserList = async (pokemonIndex, userId) => {
 
     // Firestore に保存
     await addDoc(collection(db, "users", userId, "pokemons"), {
-      index: pokemonIndex+1,
+      index: pokemonIndex,
       name: pokemon,
       url: url,
       createdAt: serverTimestamp(),
