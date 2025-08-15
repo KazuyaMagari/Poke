@@ -31,23 +31,18 @@ export const savePokemonToUserList = async (pokemonIndex, userId) => {
     console.log("User is:", userId);
   });
   try {
-    // Firestore からポケモンのURLを取得
-    const pokemonRef = doc(db, "pokemon", pokemonIndex); 
-    const pokemonDoc = await getDoc(pokemonRef);
+  // Build canonical image URL from PokeImagesURL using the pokemon id + 1 (requested mapping)
+  const idNumber = Number(pokemonIndex);
+  const targetId = idNumber + 1;
+  const url = `${PokeImagesURL}${targetId}.png`;
 
-    if (!pokemonDoc.exists()) {
-      console.error("Pokemon not found in Firestore.");
-      return;
-    }
-
-    const { url } = pokemonDoc.data();
-    
-    // PokeData からポケモンの名前を取得
-    console.log("userIndex", pokemonIndex)
-    const pokemon = PokeData.pokemon[pokemonIndex].name;
-    console.log("pokemon name", pokemon)
+  // PokeData からポケモンの名前を取得（画像を +1 したターゲットに合わせる）
+  console.log("userIndex", pokemonIndex, "targetId", targetId);
+  const pokeEntry = PokeData.pokemon.find((p) => Number(p.id) === targetId);
+  const pokemon = pokeEntry?.name ?? PokeData.pokemon[targetId - 1]?.name;
+  console.log("pokemon name", pokemon);
     if (!pokemon) {
-      console.error("Pokemon data not found in local PokeData.");
+      console.error("Pokemon data not found in local PokeData.", { idNumber });
       return;
     }
 
