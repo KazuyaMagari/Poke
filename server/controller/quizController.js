@@ -14,7 +14,7 @@ const quizController = {
             const pokemonRef = doc(db, "pokemon", docId);
             const pokemonDoc = await getDoc(pokemonRef);
 
-            const url = (pokemonDoc.exists() && pokemonDoc.data().url) ? pokemonDoc.data().url : `${PokeImagesURL}${Number(index)}.png`;
+            const url = (pokemonDoc.exists() && pokemonDoc.data().url) ? pokemonDoc.data().url : `${PokeImagesURL}${index}.png`;
             res.json({ url, index });
         } catch (error) {
             console.error("Error fetching image:", error);

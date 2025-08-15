@@ -20,7 +20,7 @@ export default function ResultItem({ item, onAddToList }: Props) {
           ) : (
             <>
               <p className="text-danger">不正解！</p>
-              <button className="btn btn-primary" onClick={() => onAddToList(item.id-1)}>
+              <button className="btn btn-primary" onClick={() => onAddToList(item.id)}>
                 リストに追加
               </button>
             </>

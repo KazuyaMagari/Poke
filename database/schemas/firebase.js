@@ -36,10 +36,11 @@ export const savePokemonToUserList = async (pokemonIndex, userId) => {
   // Use the canonical id for both image and name (no +1 offset)
   const url = `${PokeImagesURL}${idNumber}.png`;
 
+
   // PokeData からポケモンの名前を取得（id フィールドで検索）
   console.log("userIndex", pokemonIndex, "idNumber", idNumber);
   const pokeEntry = PokeData.pokemon.find((p) => Number(p.id) === idNumber);
-  const pokemon = pokeEntry?.name ?? PokeData.pokemon[idNumber - 1]?.name;
+  const pokemon = pokeEntry?.name ?? PokeData.pokemon[idNumber+1]?.name;
   console.log("pokemon name", pokemon);
     if (!pokemon) {
       console.error("Pokemon data not found in local PokeData.", { idNumber });
@@ -48,7 +49,7 @@ export const savePokemonToUserList = async (pokemonIndex, userId) => {
 
     // Firestore に保存
     await addDoc(collection(db, "users", userId, "pokemons"), {
-      index: pokemonIndex,
+      index: pokemonIndex+1,
       name: pokemon,
       url: url,
       createdAt: serverTimestamp(),
