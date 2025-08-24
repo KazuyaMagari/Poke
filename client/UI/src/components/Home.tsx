@@ -42,7 +42,7 @@ function Home() {
         </div>
         
       </div>
-      <Footer />
+  {/* <Footer /> ← Layoutで表示されるため削除 */}
     </div>
   );
 }
