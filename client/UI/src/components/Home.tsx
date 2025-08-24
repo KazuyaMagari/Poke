@@ -1,5 +1,4 @@
 import Button from 'react-bootstrap/Button';
-import Footer from './Footer';
 import { NavLink } from "react-router";
 function Home() {
   return (
