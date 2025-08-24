@@ -3,10 +3,10 @@
 
 export const ENV_CONFIG = {
   // Production Backend URL (update this with your actual backend URL)
-  PROD_API_BASE_URL: 'https://poke-l5yvw54b2-kazuyamagaris-projects.vercel.app/',
+  PROD_API_BASE_URL: 'https://poke-git-main-kazuyamagaris-projects.vercel.app/',
   
   // Production Frontend URL (update this with your actual frontend URL)
-  PROD_FRONT_URL: 'https://poke-v456.vercel.app',
+  PROD_FRONT_URL: 'https://poke-zkb5.vercel.app/',
   
   // Development URLs
   DEV_API_BASE_URL: 'http://localhost:3000/',

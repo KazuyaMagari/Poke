@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
   process.env.VITE_API_FRONT_URL,  // 環境変数で設定されたオリジン
   "http://localhost:5173",         // ローカル開発用
-  "https://poke-v456.vercel.app"   // 本番環境のフロントエンドURL（必要に応じて追加）
+  "https://poke-zkb5.vercel.app/"   // 本番環境のフロントエンドURL（必要に応じて追加）
 ];
 
 // CORS 設定
